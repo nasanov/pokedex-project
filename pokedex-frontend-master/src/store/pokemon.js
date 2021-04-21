@@ -20,18 +20,34 @@ export const addOnePokemon = pokemon => ({
 });
 
 export const getOnePokemon = (id) => async (dispatch) => {
-	const response = await fetch(`/api/pokemon/${id}`);
+  const response = await fetch(`/api/pokemon/${id}`);
 
-	if (response.ok) {
-		const singlePokemon = await response.json()
-		console.log(singlePokemon)
-		dispatch(addOnePokemon(singlePokemon))
-	}
+  if (response.ok) {
+    const singlePokemon = await response.json()
+    // console.log(singlePokemon)
+    dispatch(addOnePokemon(singlePokemon))
+  }
 }
+
+export const createOnePokemon = (obj) => async (dispatch) => {
+  console.log(obj);
+  const response = await fetch(`/api/pokemon`, {
+    method: 'POST',
+    body: JSON.stringify(obj),
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  if (response.ok) {
+    const singlePokemon = await response.json()
+    console.log(singlePokemon)
+    dispatch(addOnePokemon(singlePokemon))
+  }
+}
+
 
 export const getPokemon = () => async dispatch => {
   const response = await fetch(`/api/pokemon`);
-	// console.log(response)
+  // console.log(response)
   if (response.ok) {
     const list = await response.json();
     dispatch(load(list));
@@ -78,7 +94,7 @@ const pokemonReducer = (state = initialState, action) => {
       };
     }
     case ADD_ONE: {
-			// debugger
+      // debugger
       if (!state[action.pokemon.id]) {
         const newState = {
           ...state,
