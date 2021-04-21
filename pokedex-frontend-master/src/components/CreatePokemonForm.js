@@ -51,12 +51,12 @@ const CreatePokemonForm = ({ hideForm }) => {
     };
     // console.log(payload);
 
-    dispatch(createOnePokemon(payload))
-    // let createdPokemon;
-    // if (createdPokemon) {
-    //   history.push(`/pokemon/${createdPokemon.id}`);
-    //   hideForm();
-    // }
+    // dispatch(createOnePokemon(payload))
+    let createdPokemon = await dispatch(createOnePokemon(payload));
+    if (createdPokemon) {
+      history.push(`/pokemon/${createdPokemon.id}`);
+      hideForm();
+    }
   };
 
   const handleCancelClick = (e) => {
