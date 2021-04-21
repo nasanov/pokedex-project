@@ -14,14 +14,24 @@ const loadTypes = types => ({
   types,
 });
 
-const addOnePokemon = pokemon => ({
+export const addOnePokemon = pokemon => ({
   type: ADD_ONE,
   pokemon,
 });
 
+export const getOnePokemon = (id) => async (dispatch) => {
+	const response = await fetch(`/api/pokemon/${id}`);
+
+	if (response.ok) {
+		const singlePokemon = await response.json()
+		console.log(singlePokemon)
+		dispatch(addOnePokemon(singlePokemon))
+	}
+}
+
 export const getPokemon = () => async dispatch => {
   const response = await fetch(`/api/pokemon`);
-
+	// console.log(response)
   if (response.ok) {
     const list = await response.json();
     dispatch(load(list));
@@ -68,6 +78,7 @@ const pokemonReducer = (state = initialState, action) => {
       };
     }
     case ADD_ONE: {
+			// debugger
       if (!state[action.pokemon.id]) {
         const newState = {
           ...state,
